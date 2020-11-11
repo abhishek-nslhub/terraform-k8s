@@ -1,11 +1,11 @@
-package workspace
+package workspacehelper
 
 import (
 	"testing"
 
 	"github.com/hashicorp/go-tfe"
 	"github.com/hashicorp/terraform-k8s/pkg/apis/app/v1alpha1"
-	"github.com/hashicorp/terraform-k8s/pkg/controller/workspace/mocks"
+	"github.com/hashicorp/terraform-k8s/workspacehelper/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -61,7 +61,7 @@ func TestRunStartsDuringRequeueWhenConfigVersionIDSet(t *testing.T) {
 	mock.AssertExpectationsForObjects(t, assertMocks...)
 }
 
-func buildReconcileWorkspace(workspace *v1alpha1.Workspace) (*ReconcileWorkspace, []interface{}) {
+func buildReconcileWorkspace(workspace *v1alpha1.Workspace) (*WorkspaceHelper, []interface{}) {
 	// Objects to track in the fake client.
 	objs := []runtime.Object{workspace}
 
@@ -132,7 +132,7 @@ func buildReconcileWorkspace(workspace *v1alpha1.Workspace) (*ReconcileWorkspace
 		variables,
 	}
 
-	r := &ReconcileWorkspace{
+	r := &WorkspaceHelper{
 		client: cl,
 		scheme: s,
 		tfclient: &TerraformCloudClient{

@@ -1,4 +1,4 @@
-package workspace
+package workspacehelper
 
 import (
 	"context"
@@ -38,7 +38,7 @@ func secretForOutputs(name string, namespace string, outputs []*v1alpha1.OutputS
 }
 
 // UpsertTerraformConfig creates a ConfigMap for the Terraform template if it doesn't exist already
-func (r *ReconcileWorkspace) UpsertTerraformConfig(w *v1alpha1.Workspace, template []byte) (bool, error) {
+func (r *WorkspaceHelper) UpsertTerraformConfig(w *v1alpha1.Workspace, template []byte) (bool, error) {
 	found := &corev1.ConfigMap{}
 	err := r.client.Get(context.TODO(), types.NamespacedName{Name: w.Name, Namespace: w.Namespace}, found)
 	if err != nil && k8serrors.IsNotFound(err) {
@@ -71,7 +71,7 @@ func (r *ReconcileWorkspace) UpsertTerraformConfig(w *v1alpha1.Workspace, templa
 }
 
 // GetConfigMapForVariable retrieves the configmap value associated with the variable
-func (r *ReconcileWorkspace) GetConfigMapForVariable(namespace string, variable *v1alpha1.Variable) error {
+func (r *WorkspaceHelper) GetConfigMapForVariable(namespace string, variable *v1alpha1.Variable) error {
 	if variable.Sensitive || variable.Value != "" {
 		return nil
 	}
@@ -117,7 +117,7 @@ func outputsToMap(outputs []*v1alpha1.OutputStatus) map[string][]byte {
 }
 
 // UpsertSecretOutputs creates a Secret for the outputs
-func (r *ReconcileWorkspace) UpsertSecretOutputs(w *v1alpha1.Workspace, outputs []*v1alpha1.OutputStatus) error {
+func (r *WorkspaceHelper) UpsertSecretOutputs(w *v1alpha1.Workspace, outputs []*v1alpha1.OutputStatus) error {
 	found := &corev1.Secret{}
 	outputName := fmt.Sprintf("%s-outputs", w.Name)
 	err := r.client.Get(context.TODO(), types.NamespacedName{Name: outputName, Namespace: w.Namespace}, found)

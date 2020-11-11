@@ -1,4 +1,4 @@
-package workspace
+package workspacehelper
 
 func contains(list []string, s string) bool {
 	for _, v := range list {
