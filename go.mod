@@ -7,19 +7,19 @@ require (
 	github.com/hashicorp/go-tfe v0.11.1
 	github.com/hashicorp/terraform v0.13.4
 	github.com/mitchellh/cli v1.1.1
-	github.com/operator-framework/operator-sdk v0.18.0
+	github.com/operator-framework/operator-lib v0.2.0
+	github.com/operator-framework/operator-sdk v0.18.0 // indirect
 	github.com/spf13/pflag v1.0.5
 	github.com/stretchr/testify v1.6.1
 	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a // indirect
-	k8s.io/api v0.18.2
-	k8s.io/apimachinery v0.18.2
+	k8s.io/api v0.18.4
+	k8s.io/apimachinery v0.18.4
 	k8s.io/client-go v12.0.0+incompatible
-	sigs.k8s.io/controller-runtime v0.6.0
+	sigs.k8s.io/controller-runtime v0.6.1
 )
 
 // Pinned to kubernetes-1.16.2
 replace (
-	k8s.io/apiextensions-apiserver => k8s.io/apiextensions-apiserver v0.0.0-20191016113550-5357c4baaf65
 	k8s.io/apiserver => k8s.io/apiserver v0.0.0-20191016112112-5190913f932d
 	k8s.io/cli-runtime => k8s.io/cli-runtime v0.0.0-20191016114015-74ad18325ed5
 	k8s.io/cloud-provider => k8s.io/cloud-provider v0.0.0-20191016115326-20453efc2458
