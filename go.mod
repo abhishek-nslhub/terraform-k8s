@@ -4,18 +4,17 @@ go 1.15
 
 require (
 	github.com/go-logr/logr v0.1.0
-	github.com/hashicorp/go-tfe v0.11.1
-	github.com/hashicorp/terraform v0.13.4
-	github.com/mitchellh/cli v1.1.1
+	github.com/hashicorp/go-tfe v0.10.3-0.20201021065942-225578ab1ee7 //pin to commit until new version is out
+	github.com/hashicorp/terraform v0.13.5
+	github.com/mitchellh/cli v1.1.2
 	github.com/operator-framework/operator-lib v0.2.0
 	github.com/operator-framework/operator-sdk v0.18.0 // indirect
 	github.com/spf13/pflag v1.0.5
 	github.com/stretchr/testify v1.6.1
-	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a // indirect
-	k8s.io/api v0.18.4
-	k8s.io/apimachinery v0.18.4
-	k8s.io/client-go v12.0.0+incompatible
-	sigs.k8s.io/controller-runtime v0.6.1
+	k8s.io/api v0.18.6
+	k8s.io/apimachinery v0.18.6
+	k8s.io/client-go v10.0.0+incompatible
+	sigs.k8s.io/controller-runtime v0.6.3
 )
 
 // Pinned to kubernetes-1.16.2
@@ -39,9 +38,4 @@ replace (
 	k8s.io/sample-apiserver => k8s.io/sample-apiserver v0.0.0-20191016112829-06bb3c9d77c9
 )
 
-replace (
-	github.com/Azure/go-autorest => github.com/Azure/go-autorest v13.3.2+incompatible // Required by OLM
-	github.com/docker/docker => github.com/moby/moby v0.7.3-0.20190826074503-38ab9da00309 // Required by Helm
-	github.com/openshift/api => github.com/openshift/api v0.0.0-20190924102528-32369d4db2ad // Required until https://github.com/operator-framework/operator-lifecycle-manager/pull/1241 is resolved
-	k8s.io/client-go => k8s.io/client-go v0.18.2 // Required by prometheus-operator
-)
+replace k8s.io/client-go => k8s.io/client-go v0.18.6
