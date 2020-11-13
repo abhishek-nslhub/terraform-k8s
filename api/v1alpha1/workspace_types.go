@@ -118,7 +118,7 @@ type WorkspaceStatus struct {
 	Outputs []*OutputStatus `json:"outputs,omitempty"`
 }
 
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +kubebuilder:object:root=true
 
 // Workspace is the Schema for the workspaces API
 // +k8s:openapi-gen=true
@@ -132,7 +132,7 @@ type Workspace struct {
 	Status WorkspaceStatus `json:"status,omitempty"`
 }
 
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +kubebuilder:object:root=true
 
 // WorkspaceList contains a list of Workspace
 type WorkspaceList struct {

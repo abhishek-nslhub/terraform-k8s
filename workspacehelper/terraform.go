@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"text/template"
 
-	"github.com/hashicorp/terraform-k8s/pkg/apis/app/v1alpha1"
+	"github.com/hashicorp/terraform-k8s/api/v1alpha1"
 )
 
 const (
