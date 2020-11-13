@@ -11,7 +11,7 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/hashicorp/go-tfe"
 	tfc "github.com/hashicorp/go-tfe"
-	appv1alpha1 "github.com/hashicorp/terraform-k8s/pkg/apis/app/v1alpha1"
+	appv1alpha1 "github.com/hashicorp/terraform-k8s/api/v1alpha1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -22,7 +22,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 )
-
 
 var log = logf.Log.WithName(TerraformOperator)
 

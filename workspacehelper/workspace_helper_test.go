@@ -4,12 +4,13 @@ import (
 	"testing"
 
 	"github.com/hashicorp/go-tfe"
-	"github.com/hashicorp/terraform-k8s/pkg/apis/app/v1alpha1"
+	"github.com/hashicorp/terraform-k8s/api/v1alpha1"
 	"github.com/hashicorp/terraform-k8s/workspacehelper/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/kubernetes/scheme"
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
@@ -65,9 +66,10 @@ func buildReconcileWorkspace(workspace *v1alpha1.Workspace) (*WorkspaceHelper, [
 	// Objects to track in the fake client.
 	objs := []runtime.Object{workspace}
 
+	gv := schema.GroupVersion{Group: "app.terraform.io", Version: "v1alpha1"}
 	// Register operator types with the runtime scheme.
 	s := scheme.Scheme
-	s.AddKnownTypes(v1alpha1.SchemeGroupVersion, workspace)
+	s.AddKnownTypes(gv, workspace)
 
 	// Create a fake client to mock API calls.
 	cl := fake.NewFakeClient(objs...)
