@@ -3,13 +3,12 @@ module github.com/hashicorp/terraform-k8s
 go 1.15
 
 require (
+	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/go-logr/logr v0.1.0
 	github.com/hashicorp/go-tfe v0.10.3-0.20201021065942-225578ab1ee7 //pin to commit until new version is out
 	github.com/hashicorp/terraform v0.13.5
-	github.com/mitchellh/cli v1.1.2
-	github.com/operator-framework/operator-lib v0.2.0
-	github.com/operator-framework/operator-sdk v0.18.0 // indirect
-	github.com/spf13/pflag v1.0.5
+	github.com/onsi/ginkgo v1.12.1
+	github.com/onsi/gomega v1.10.1
 	github.com/stretchr/testify v1.6.1
 	k8s.io/api v0.18.6
 	k8s.io/apimachinery v0.18.6
