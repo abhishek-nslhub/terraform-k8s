@@ -20,7 +20,7 @@ spec:
           - terraform-k8s
           - sync-workspace
           - "--k8s-watch-namespace=$(POD_NAMESPACE)"
-          imagePullPolicy: Never
+          imagePullPolicy: IfNotPresent
           env:
             - name: POD_NAME
               valueFrom:

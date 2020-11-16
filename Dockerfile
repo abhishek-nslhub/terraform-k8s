@@ -1,4 +1,4 @@
-# Build the manager binary
+# Build the terraform-k8s binary
 FROM golang:1.13 as builder
 
 WORKDIR /workspace
@@ -13,15 +13,17 @@ RUN go mod download
 COPY main.go main.go
 COPY api/ api/
 COPY controllers/ controllers/
+COPY version/ version/
+COPY workspacehelper/ workspacehelper/
 
 # Build
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -o manager main.go
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -o terraform-k8s main.go
 
-# Use distroless as minimal base image to package the manager binary
+# Use distroless as minimal base image to package the terraform-k8s binary
 # Refer to https://github.com/GoogleContainerTools/distroless for more details
 FROM gcr.io/distroless/static:nonroot
 WORKDIR /
-COPY --from=builder /workspace/manager .
+COPY --from=builder /workspace/terraform-k8s .
 USER nonroot:nonroot
 
-ENTRYPOINT ["/manager"]
+ENTRYPOINT ["/terraform-k8s"]

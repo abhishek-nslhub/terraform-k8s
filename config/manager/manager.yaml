@@ -24,10 +24,11 @@ spec:
     spec:
       containers:
       - command:
-        - /manager
+        - /terraform-k8s
         args:
         - --enable-leader-election
-        image: controller:latest
+        image: terraform-k8s:latest
+        imagePullPolicy: IfNotPresent
         name: manager
         resources:
           limits:
