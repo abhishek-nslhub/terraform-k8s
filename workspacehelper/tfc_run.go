@@ -6,7 +6,6 @@ import (
 	"time"
 
 	tfc "github.com/hashicorp/go-tfe"
-	"github.com/hashicorp/terraform-k8s/api/v1alpha1"
 )
 
 var (
