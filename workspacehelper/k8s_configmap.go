@@ -28,7 +28,7 @@ func configMapForTerraform(name string, namespace string, template []byte) *core
 
 func secretForOutputs(name string, namespace string, outputs []*v1alpha1.OutputStatus) *corev1.Secret {
 	data := outputsToMap(outputs)
-	return &corev1.Secret {
+	return &corev1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      name,
 			Namespace: namespace,
