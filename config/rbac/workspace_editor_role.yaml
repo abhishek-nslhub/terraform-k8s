@@ -5,6 +5,28 @@ metadata:
   name: workspace-editor-role
 rules:
 - apiGroups:
+    - ""
+  resources:
+    - pods
+    - services
+    - services/finalizers
+    - endpoints
+    - persistentvolumeclaims
+    - events
+    - configmaps
+    - secrets
+  verbs:
+    - '*'
+#  - apiGroups:
+#      - apps
+#    resources:
+#      - deployments
+#      - daemonsets
+#      - replicasets
+#      - statefulsets
+#    verbs:
+#      - '*'
+- apiGroups:
   - app.terraform.io
   resources:
   - workspaces
@@ -21,4 +43,10 @@ rules:
   resources:
   - workspaces/status
   verbs:
-  - get
+    - create
+    - delete
+    - get
+    - list
+    - patch
+    - update
+    - watch
