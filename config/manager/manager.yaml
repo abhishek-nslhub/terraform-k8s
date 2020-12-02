@@ -8,7 +8,7 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: terraform-k8s
+  name: operator
   namespace: system
   labels:
     control-plane: terraform-k8s
