@@ -52,6 +52,53 @@ spec:
               required:
               - source
               type: object
+            notifications:
+              description: Notification configuration
+              items:
+                description: Notification notification holds all the necessary information
+                  required to configure any workspace notification
+                properties:
+                  enabled:
+                    description: Control if the notification is enabled or not
+                    type: boolean
+                  name:
+                    description: Name of the hook
+                    type: string
+                  recipients:
+                    description: List of recipients' email addresses. Only applicable
+                      for TFE endpoints.
+                    items:
+                      type: string
+                    type: array
+                  token:
+                    description: Token used to generate an HMAC on the verificatio0n
+                      request
+                    type: string
+                  triggers:
+                    description: When the web hook gets triggered. Acceptable values
+                      are run:created, run:planning, run:needs_attention, run:applying,
+                      run:completed, run:errored.
+                    items:
+                      type: string
+                    type: array
+                  type:
+                    description: Notification type. Can be one of email, generic,
+                      or slack
+                    type: string
+                  url:
+                    description: URL of the hook
+                    type: string
+                  users:
+                    description: List of users to receive the notificaiton email.
+                    items:
+                      type: string
+                    type: array
+                required:
+                - enabled
+                - name
+                - type
+                type: object
+              type: array
             organization:
               description: Terraform Cloud organization
               type: string

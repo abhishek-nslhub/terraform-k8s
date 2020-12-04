@@ -82,3 +82,4 @@ tags
 .idea/
 
 terraform-k8s
+tst/
