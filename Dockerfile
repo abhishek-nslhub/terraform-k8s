@@ -21,7 +21,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -o terrafor
 
 # Use distroless as minimal base image to package the terraform-k8s binary
 # Refer to https://github.com/GoogleContainerTools/distroless for more details
-FROM gcr.io/distroless/static:nonroot
+FROM alpine:3.12.1
 WORKDIR /
 COPY --from=builder /workspace/terraform-k8s .
 USER nonroot:nonroot
