@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - command:
-        - /terraform-k8s
+        - /bin/terraform-k8s
         args:
         - --enable-leader-election
         image: terraform-k8s:latest
