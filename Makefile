@@ -4,11 +4,14 @@ IMG ?= terraform-k8s:latest
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 CRD_OPTIONS ?= "crd:trivialVersions=true"
 
+KUSTOMIZE=$(shell which kustomize)
+CONTROLLER_GEN=$(shell which controller-gen)
+KUBEBUILDER := $(shell which kubebuilder)
+
 GOOS=$(shell go env GOOS)
 GOARCH=$(shell go env GOARCH)
-KUBEBUILDER := $(shell which kubebuilder)
 ifeq ($(.SHELLSTATUS),1)
-$(error "Kubebuilder binary could not be found in PATH. Please install kubebuilder: https://go.kubebuilder.io/dl/2.3.1/$(GOOS)/$(GOARCH)")
+$(error "Kubebuilder's etcd binary could not be found in PATH. Please install kubebuilder: https://go.kubebuilder.io/dl/2.3.1/$(GOOS)/$(GOARCH)")
 endif
 export KUBEBUILDER_ASSETS ?= $(dir $(KUBEBUILDER))
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
@@ -19,6 +22,10 @@ GOBIN=$(shell go env GOBIN)
 endif
 
 all: test deploy
+
+tools:
+	go install -mod=readonly sigs.k8s.io/kustomize/kustomize/v3
+	go install -mod=readonly sigs.k8s.io/controller-tools/cmd/controller-gen
 
 # Run tests
 test: generate fmt vet manifests
@@ -33,20 +40,20 @@ run: generate fmt vet manifests
 	go run ./main.go
 
 # Install CRDs into a cluster
-install: manifests kustomize
+install: manifests
 	$(KUSTOMIZE) build config/crd | kubectl apply -f -
 
 # Uninstall CRDs from a cluster
-uninstall: manifests kustomize
+uninstall: manifests
 	$(KUSTOMIZE) build config/crd | kubectl delete -f -
 
 # Deploy controller in the configured Kubernetes cluster in ~/.kube/config
-deploy: manifests kustomize
+deploy: manifests
 	cd config/manager && $(KUSTOMIZE) edit set image controller=${IMG}
 	$(KUSTOMIZE) build config/default | kubectl apply -f -
 
 # Generate manifests e.g. CRD, RBAC etc.
-manifests: controller-gen
+manifests: tools
 	$(CONTROLLER_GEN) $(CRD_OPTIONS) rbac:roleName=terraform-k8s webhook paths="./..." output:crd:artifacts:config=config/crd/bases
 
 # Run go fmt against code
@@ -58,7 +65,7 @@ vet:
 	go vet ./...
 
 # Generate code
-generate: controller-gen
+generate: tools
 	$(CONTROLLER_GEN) object:headerFile="hack/boilerplate.go.txt" paths="./..."
 
 # Build the docker image
@@ -68,35 +75,3 @@ docker-build: test
 # Push the docker image
 docker-push:
 	docker push ${IMG}
-
-# find or download controller-gen
-# download controller-gen if necessary
-controller-gen:
-ifeq (, $(shell which controller-gen))
-	@{ \
-	set -e ;\
-	CONTROLLER_GEN_TMP_DIR=$$(mktemp -d) ;\
-	cd $$CONTROLLER_GEN_TMP_DIR ;\
-	go mod init tmp ;\
-	go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.3.0 ;\
-	rm -rf $$CONTROLLER_GEN_TMP_DIR ;\
-	}
-CONTROLLER_GEN=$(GOBIN)/controller-gen
-else
-CONTROLLER_GEN=$(shell which controller-gen)
-endif
-
-kustomize:
-ifeq (, $(shell which kustomize))
-	@{ \
-	set -e ;\
-	KUSTOMIZE_GEN_TMP_DIR=$$(mktemp -d) ;\
-	cd $$KUSTOMIZE_GEN_TMP_DIR ;\
-	go mod init tmp ;\
-	go get sigs.k8s.io/kustomize/kustomize/v3@v3.5.4 ;\
-	rm -rf $$KUSTOMIZE_GEN_TMP_DIR ;\
-	}
-KUSTOMIZE=$(GOBIN)/kustomize
-else
-KUSTOMIZE=$(shell which kustomize)
-endif
