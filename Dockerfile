@@ -1,5 +1,5 @@
 # Build the terraform-k8s binary
-FROM golang:1.13 as builder
+FROM golang:1.15-alpine as builder
 
 WORKDIR /workspace
 # Copy the Go Modules manifests
@@ -10,20 +10,14 @@ COPY go.sum go.sum
 RUN go mod download
 
 # Copy the go source
-COPY main.go main.go
-COPY api/ api/
-COPY controllers/ controllers/
-COPY version/ version/
-COPY workspacehelper/ workspacehelper/
+COPY . .
 
 # Build
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -o terraform-k8s main.go
 
-# Use distroless as minimal base image to package the terraform-k8s binary
-# Refer to https://github.com/GoogleContainerTools/distroless for more details
 FROM alpine:3.12.1
 WORKDIR /
-COPY --from=builder /workspace/terraform-k8s .
-USER nonroot:nonroot
+COPY --from=builder /workspace/terraform-k8s /bin/terraform-k8s
+USER nobody:nobody
 
-ENTRYPOINT ["/terraform-k8s"]
+ENTRYPOINT ["/bin/terraform-k8s"]
