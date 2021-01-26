@@ -12,7 +12,7 @@ CONTROLLER_GEN=$(shell which controller-gen)
 ifeq ($(.SHELLSTATUS),1)
 	$(error "controller-gen not found. Please install by running: go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.3.0")
 endif
-KUBEBUILDER := $(shell which kubebuilder)
+KUBEBUILDER=$(shell which kubebuilder)
 ifeq ($(.SHELLSTATUS),1)
 	$(error "Kubebuilder and related assets such as the etcd binary could not be found in PATH. Please install kubebuilder as explained here: https://book.kubebuilder.io/quick-start.html#installation")
 endif
