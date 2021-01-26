@@ -11,7 +11,7 @@ KUBEBUILDER := $(shell which kubebuilder)
 GOOS=$(shell go env GOOS)
 GOARCH=$(shell go env GOARCH)
 ifeq ($(.SHELLSTATUS),1)
-$(error "Kubebuilder's etcd binary could not be found in PATH. Please install kubebuilder: https://go.kubebuilder.io/dl/2.3.1/$(GOOS)/$(GOARCH)")
+	$(error "Kubebuilder and related assets such as the etcd binary could not be found in PATH. Please install kubebuilder as explained here: https://book.kubebuilder.io/quick-start.html#installation")
 endif
 export KUBEBUILDER_ASSETS ?= $(dir $(KUBEBUILDER))
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
